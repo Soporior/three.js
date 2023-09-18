@@ -1,3 +1,10 @@
+<!--
+ * @Author: lxf
+ * @Date: 2023-09-18 16:33:10
+ * @LastEditors: lxf
+ * @LastEditTime: 2023-09-18 16:33:10
+ * @FilePath: \three.js\examples\_index copy.html
+-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +32,7 @@
 
         <script type="module">
             import * as THREE from 'three';
-            import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
             const width = 800;
             const height = 500;
             const scene = new THREE.Scene();
@@ -55,25 +62,10 @@
             const axis = new THREE.AxesHelper(159);
             scene.add(axis);
 
-            // 添加光源
-            const pointLight = new THREE.PointLight(0xffffff, 1000, 0, 1);
-            pointLight.position.set(100, 300, 400);
-            scene.add(pointLight);
-
             renderer.setSize(width, height);
             renderer.render(scene, camera);
 
             document.getElementById('webgl').appendChild(renderer.domElement);
-
-            // 创建一个相机控件实例
-            const cameraControl = new OrbitControls(
-                camera,
-                renderer.domElement
-            );
-            cameraControl.addEventListener('change', () => {
-                console.log(camera.position);
-                renderer.render(scene, camera);
-            });
         </script>
     </body>
 </html>
