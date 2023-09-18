@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+        <title>three.js css2d - label</title>
+        <link type="text/css" rel="stylesheet" href="main.css" />
+        <style></style>
+    </head>
+
+    <body>
+        <div id="webgl" style="margin-top: 200px; margin-left: 100px"></div>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "../build/three.module.js",
+                    "three/addons/": "./jsm/"
+                }
+            }
+        </script>
+
+        <script type="module">
+            import * as THREE from 'three';
+
+            const width = 800;
+            const height = 500;
+            const scene = new THREE.Scene();
+
+            const boxGeometry = new THREE.BoxGeometry(50, 50, 50);
+            // MeshBasicMaterial 不受光照影响
+            // MeshLambertMaterial 受光照影响
+            const material = new THREE.MeshLambertMaterial({
+                color: 0xf11575,
+                transparent: true,
+                opacity: 0.5,
+            });
+            const meshInstance = new THREE.Mesh(boxGeometry, material);
+            meshInstance.position.set(0, 10, 0);
+            scene.add(meshInstance);
+
+            const camera = new THREE.PerspectiveCamera(
+                30,
+                width / height,
+                1,
+                3000
+            );
+            camera.position.set(200, 200, 200);
+            camera.lookAt(meshInstance.position);
+            const renderer = new THREE.WebGLRenderer();
+            // 添加辅助轴
+            const axis = new THREE.AxesHelper(159);
+            scene.add(axis);
+
+            // 添加光源
+            const pointLight = new THREE.PointLight(0xffffff, 1, 0, 0);
+            pointLight.position.set(100, 300, 400);
+            scene.add(pointLight);
+
+            renderer.setSize(width, height);
+            renderer.render(scene, camera);
+
+            document.getElementById('webgl').appendChild(renderer.domElement);
+        </script>
+    </body>
+</html>
