@@ -1,3 +1,10 @@
+<!--
+ * @Author: lxf
+ * @Date: 2023-09-19 15:16:03
+ * @LastEditors: lxf
+ * @LastEditTime: 2023-09-19 15:24:22
+ * @FilePath: \three.js\examples\08_添加平行光辅助器.html
+-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,7 +43,7 @@
             const material = new THREE.MeshLambertMaterial({
                 color: 0xf11575,
                 transparent: true,
-                opacity: 0.7,
+                opacity: 1,
             });
             const meshInstance = new THREE.Mesh(boxGeometry, material);
             meshInstance.position.set(0, 10, 0);

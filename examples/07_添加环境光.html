@@ -35,8 +35,8 @@
             // MeshLambertMaterial 受光照影响
             const material = new THREE.MeshLambertMaterial({
                 color: 0xf11575,
-                transparent: true,
-                opacity: 0.7,
+                transparent: false,
+                opacity: 1,
             });
             const meshInstance = new THREE.Mesh(boxGeometry, material);
             meshInstance.position.set(0, 10, 0);
@@ -55,30 +55,18 @@
             const axis = new THREE.AxesHelper(159);
             scene.add(axis);
 
-            // // 添加点 光源
-            // const pointLight = new THREE.PointLight(0xffffff, 1, 10000000, 0.1);
-            // pointLight.position.set(100, 300, 400);
-            // scene.add(pointLight);
+            // 添加点光源
+            const pointLight = new THREE.PointLight(0xffffff, 1, 10000000, 0.1);
+            pointLight.position.set(100, 300, 400);
+            scene.add(pointLight);
 
             // 添加环境光 光源
             const ambient = new THREE.AmbientLight(0xffffff, 0.4);
             scene.add(ambient);
 
-            //添加平行光 光源
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-            directionalLight.position.set(50, 100, 60);
-            scene.add(directionalLight);
-
-            // //添加可视化点光源
-            // const pointLightMesh = new THREE.PointLightHelper(pointLight, 10);
-            // scene.add(pointLightMesh);
-
             //添加可视化点光源
-            const directionalLightMesh = new THREE.DirectionalLightHelper(
-                directionalLight,
-                10
-            );
-            scene.add(directionalLightMesh);
+            const pointLightMesh = new THREE.PointLightHelper(pointLight, 10);
+            scene.add(pointLightMesh);
 
             renderer.setSize(width, height);
             renderer.render(scene, camera);
