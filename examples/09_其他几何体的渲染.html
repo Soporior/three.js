@@ -1,8 +1,8 @@
 <!--
  * @Author: lxf
- * @Date: 2023-09-12 15:11:34
+ * @Date: 2023-09-21 09:34:34
  * @LastEditors: lxf
- * @LastEditTime: 2023-09-12 15:11:39
+ * @LastEditTime: 2023-09-21 09:34:38
  * @FilePath: \three.js\examples\_index copy.html
 -->
 <!DOCTYPE html>
@@ -32,14 +32,19 @@
 
         <script type="module">
             import * as THREE from 'three';
-
+            import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
             const width = 800;
             const height = 500;
             const scene = new THREE.Scene();
-            const boxGeometry = new THREE.BoxGeometry(50, 50, 50);
 
-            const material = new THREE.MeshBasicMaterial({
-                color: 0x0000ff,
+            const boxGeometry = new THREE.CircleGeometry(50, 50, 50);
+            // MeshBasicMaterial 不受光照影响
+            // MeshLambertMaterial 受光照影响
+            const material = new THREE.MeshLambertaterial({
+                color: 0xf11575,
+                transparent: true,
+                opacity: 0.7,
+                side: THREE.DoubleSide, //双面可见
             });
             const meshInstance = new THREE.Mesh(boxGeometry, material);
             meshInstance.position.set(0, 10, 0);
@@ -53,10 +58,30 @@
             );
             camera.position.set(200, 200, 200);
             camera.lookAt(meshInstance.position);
+
             const renderer = new THREE.WebGLRenderer();
+            // 添加辅助轴
+            const axis = new THREE.AxesHelper(159);
+            scene.add(axis);
+
+            // 添加环境光 光源
+            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambient);
+
             renderer.setSize(width, height);
             renderer.render(scene, camera);
+
             document.getElementById('webgl').appendChild(renderer.domElement);
+
+            // 创建一个相机控件实例
+            const cameraControl = new OrbitControls(
+                camera,
+                renderer.domElement
+            );
+            cameraControl.addEventListener('change', () => {
+                // console.log(camera.position);
+                renderer.render(scene, camera);
+            });
         </script>
     </body>
 </html>

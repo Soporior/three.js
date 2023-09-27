@@ -1,3 +1,10 @@
+<!--
+ * @Author: lxf
+ * @Date: 2023-09-18 17:12:07
+ * @LastEditors: lxf
+ * @LastEditTime: 2023-09-21 16:03:01
+ * @FilePath: \three.js\examples\_index.html
+-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +19,7 @@
     </head>
 
     <body>
-        <div id="webgl" style="margin-top: 200px; margin-left: 100px"></div>
+        <div id="webgl"></div>
 
         <script type="importmap">
             {
@@ -26,6 +33,7 @@
         <script type="module">
             import * as THREE from 'three';
             import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+            import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
             const width = 800;
             const height = 500;
             const scene = new THREE.Scene();
@@ -36,7 +44,7 @@
             const material = new THREE.MeshLambertMaterial({
                 color: 0xf11575,
                 transparent: true,
-                opacity: 0.7,
+                opacity: 0.5,
             });
             const meshInstance = new THREE.Mesh(boxGeometry, material);
             meshInstance.position.set(0, 10, 0);
@@ -55,30 +63,10 @@
             const axis = new THREE.AxesHelper(159);
             scene.add(axis);
 
-            // // 添加点 光源
-            // const pointLight = new THREE.PointLight(0xffffff, 1, 10000000, 0.1);
-            // pointLight.position.set(100, 300, 400);
-            // scene.add(pointLight);
-
-            // 添加环境光 光源
-            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-            scene.add(ambient);
-
-            //添加平行光 光源
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-            directionalLight.position.set(50, 100, 60);
-            scene.add(directionalLight);
-
-            // //添加可视化点光源
-            // const pointLightMesh = new THREE.PointLightHelper(pointLight, 10);
-            // scene.add(pointLightMesh);
-
-            //添加可视化点光源
-            const directionalLightMesh = new THREE.DirectionalLightHelper(
-                directionalLight,
-                10
-            );
-            scene.add(directionalLightMesh);
+            // 添加光源
+            const pointLight = new THREE.PointLight(0xffffff, 1000, 0, 1);
+            pointLight.position.set(100, 300, 400);
+            scene.add(pointLight);
 
             renderer.setSize(width, height);
             renderer.render(scene, camera);
@@ -90,10 +78,23 @@
                 camera,
                 renderer.domElement
             );
-            cameraControl.addEventListener('change', () => {
-                // console.log(camera.position);
+            // cameraControl.addEventListener('change', () => {
+            //     console.log(camera.position);
+            //     renderer.render(scene, camera);
+            // });
+            function render() {
                 renderer.render(scene, camera);
-            });
+
+                requestAnimationFrame(render);
+            }
+
+            render();
+
+            const guiInstance = new GUI();
+            guiInstance.add(material, 'opacity', 0, 1);
+            guiInstance.add(pointLight.position, 'x', 100, 400);
+            guiInstance.add(pointLight.position, 'y', 100, 400);
+            guiInstance.add(pointLight.position, 'z', 100, 400);
         </script>
     </body>
 </html>
